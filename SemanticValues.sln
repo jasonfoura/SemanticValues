@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticValues", "SemanticValues\SemanticValues.csproj", "{5DFB2628-4A6B-454B-BAB1-3205D53C0B61}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticValues.Tests", "SemanticValues.Tests\SemanticValues.Tests.csproj", "{400B5AFF-5C6C-4D80-8BBF-0A92D75A7D3F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{5DFB2628-4A6B-454B-BAB1-3205D53C0B61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DFB2628-4A6B-454B-BAB1-3205D53C0B61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DFB2628-4A6B-454B-BAB1-3205D53C0B61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{400B5AFF-5C6C-4D80-8BBF-0A92D75A7D3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{400B5AFF-5C6C-4D80-8BBF-0A92D75A7D3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{400B5AFF-5C6C-4D80-8BBF-0A92D75A7D3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{400B5AFF-5C6C-4D80-8BBF-0A92D75A7D3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
