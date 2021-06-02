@@ -7,15 +7,15 @@ namespace SemanticValues.Tests
 {
     public class SemanticValueValidationTests
     {
-        private record MockValidatedSemanticObject : SemanticValue<object>
+        private record MockValidatedSemanticObject : SemanticValue<object?>
         {
-            public MockValidatedSemanticObject(object value, bool isValid) : base(value, _ => isValid)
+            public MockValidatedSemanticObject(object? value, bool isValid) : base(value, _ => isValid)
             {
             }
         }
 
         [Property]
-        public Property ValidValuesCanBeConstructedWhileInvalidValuesThrowInvalidSemanticValueException(object value, bool isValid)
+        public Property ValidValuesCanBeConstructedWhileInvalidValuesThrowInvalidSemanticValueException(object? value, bool isValid)
         {
             var threwExpectedException = false;
             
@@ -28,11 +28,14 @@ namespace SemanticValues.Tests
                 threwExpectedException = true;
             }
 
-            return Prop.Given(isValid, !threwExpectedException, threwExpectedException);
+            return Prop.Given(isValid, !threwExpectedException, threwExpectedException)
+                .Classify(isValid, "Value considered valid")
+                .Classify(!isValid, "Value considered invalid")
+                .Collect(value?.GetType());
         }
         
         [Property]
-        public Property InvalidSemanticValueExceptionIncludesAttemptedValue(object value)
+        public Property InvalidSemanticValueExceptionIncludesAttemptedValue(object? value)
         {
             try
             {
@@ -42,7 +45,8 @@ namespace SemanticValues.Tests
             }
             catch (InvalidSemanticValueException<object> e)
             {
-                return Prop.OfTestable(e.Value == value);
+                return Prop.OfTestable(e.Value == value)
+                    .Collect(value?.GetType());
             }
         }
     }
