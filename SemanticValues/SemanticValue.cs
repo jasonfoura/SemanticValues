@@ -20,7 +20,7 @@ namespace SemanticValues
         /// <summary>
         /// The underlying value.
         /// </summary>
-        protected TValue Value { get; }
+        public TValue Value { get; }
 
         /// <summary>
         /// Check for validity and construct a semantic value with the provided underlying value.
