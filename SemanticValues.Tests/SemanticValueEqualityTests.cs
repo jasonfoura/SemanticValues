@@ -1,68 +1,48 @@
-using Xunit;
+using System;
+using FsCheck;
+using FsCheck.Xunit;
 
 namespace SemanticValues.Tests
 {
     public class SemanticValueEqualityTests
     {
-        private record TestSemanticStringValueA : SemanticValue<string>
+        [Property]
+        public Property SameTypeWithSameValueAreEqual(object value)
         {
-            public TestSemanticStringValueA(string value) : base(value)
-            {
-            }
-        }
-        
-        private record TestSemanticStringValueB : SemanticValue<string>
-        {
-            public TestSemanticStringValueB(string value) : base(value)
-            {
-            }
-        }
-        
-        private record TestSemanticIntValue : SemanticValue<int>
-        {
-            public TestSemanticIntValue(int value) : base(value)
-            {
-            }
-        }
-        
-        [Fact]
-        public void SameTypeWithSameValueAreEqual()
-        {
-            var commonValue = "any value";
-            
-            var firstA = new TestSemanticStringValueA(commonValue);
-            var otherA = new TestSemanticStringValueA(commonValue);
+            var first = new SemanticObject(value);
+            var second = new SemanticObject(value);
 
-            Assert.True(firstA == otherA);
+            return Prop.OfTestable(first == second)
+                .And(Prop.OfTestable(first.Equals(second)))
+                .And(Prop.OfTestable(second.Equals(first)));
+        }
+
+        [Property]
+        public Property DifferentTypesAreNeverEqual(object value, object otherValue, bool useSameValue)
+        {
+            var first = new SemanticObject(value);
+            var second = useSameValue ? new DifferentSemanticObject(value) : new DifferentSemanticObject(otherValue);
+
+            return Prop.OfTestable(first != second)
+                .And(Prop.OfTestable(!first.Equals(second)))
+                .And(Prop.OfTestable(!second.Equals(first)));
         }
         
-        [Fact]
-        public void SameTypeWithDifferentValueAreNotEqual()
+        [Property]
+        public Property SameTypeWithDifferentValuesAreOnlyEqualWhenValuesAreEqual(object value, object otherValue, bool useSameValue)
         {
-            var a = new TestSemanticStringValueA("a");
-            var b = new TestSemanticStringValueA("b");
+            var first = new SemanticObject(value);
+            var second = useSameValue ? new SemanticObject(value) : new SemanticObject(otherValue);
 
-            Assert.False(a == b);
-        }
-        
-        [Fact]
-        public void DifferentTypesWithSameValueAreNotEqual()
-        {
-            var commonValue = "any value";
-            
-            var a = new TestSemanticStringValueA(commonValue);
-            var b = new TestSemanticStringValueB(commonValue);
+            var valuesEqual = useSameValue || Object.Equals(value, otherValue);
 
-            Assert.False(a == b);
-        }
-        
-        [Fact]
-        public void DifferentTypesWithDifferentValueAreNotEqual()
-        {
-            var a = new TestSemanticStringValueA("a");
-            var b = new TestSemanticStringValueB("b");
-
-            Assert.False(a == b);
+            return Prop.When(valuesEqual,
+                    () => Prop.OfTestable(first == second)
+                        .And(Prop.OfTestable(first.Equals(second)))
+                        .And(Prop.OfTestable(second.Equals(first))))
+                .Or(Prop.OfTestable(first != second)
+                    .And(Prop.OfTestable(!first.Equals(second)))
+                    .And(Prop.OfTestable(!second.Equals(first))));
         }
     }
 }
