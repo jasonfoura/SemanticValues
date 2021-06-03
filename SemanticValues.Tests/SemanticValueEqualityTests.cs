@@ -7,7 +7,52 @@ namespace SemanticValues.Tests
     public class SemanticValueEqualityTests
     {
         [Property]
-        public Property SameTypeWithSameValueAreEqual(object? value)
+        public Property WorksForChar(char value, char otherValue, bool useSameValue) => WorksForType(value, otherValue, useSameValue);
+        
+        [Property]
+        public Property WorksForString(string value, string otherValue, bool useSameValue) => WorksForType(value, otherValue, useSameValue);
+
+        [Property]
+        public Property WorksForGuid(Guid value, Guid otherValue, bool useSameValue) => WorksForType(value, otherValue, useSameValue);
+        
+        [Property]
+        public Property WorksForShort(short value, short otherValue, bool useSameValue) => WorksForType(value, otherValue, useSameValue);
+        
+        [Property]
+        public Property WorksForInt(int value, int otherValue, bool useSameValue) => WorksForType(value, otherValue, useSameValue);
+        
+        [Property]
+        public Property WorksForLong(long value, long otherValue, bool useSameValue) => WorksForType(value, otherValue, useSameValue);
+
+        [Property]
+        public Property WorksForFloat(float value, float otherValue, bool useSameValue) => WorksForType(value, otherValue, useSameValue);
+        
+        [Property]
+        public Property WorksForDouble(double value, double otherValue, bool useSameValue) => WorksForType(value, otherValue, useSameValue);
+        
+        [Property]
+        public Property WorksForDecimal(decimal value, decimal otherValue, bool useSameValue) => WorksForType(value, otherValue, useSameValue);
+        
+        [Property]
+        public Property WorksForBool(bool value, bool otherValue, bool useSameValue) => WorksForType(value, otherValue, useSameValue);
+        
+        [Property]
+        public Property WorksForByte(byte value, byte otherValue, bool useSameValue) => WorksForType(value, otherValue, useSameValue);
+        
+        [Property]
+        public Property WorksForObject(object value, object otherValue, bool useSameValue) => WorksForType(value, otherValue, useSameValue);
+
+        [Property]
+        public Property WorksForDynamic(dynamic value, dynamic otherValue, bool useSameValue) => WorksForType<dynamic>(value, otherValue, useSameValue);
+        
+        private static Property WorksForType<TValue>(TValue value, TValue otherValue, bool useSameValue) where TValue : notnull
+        {
+            return SameTypeWithSameValueAreEqual(value)
+                .And(DifferentTypesAreNeverEqual(value, otherValue, useSameValue)
+                    .And(SameTypeWithDifferentValuesAreOnlyEqualWhenValuesAreEqual(value, otherValue, useSameValue)));
+        }
+        
+        private static Property SameTypeWithSameValueAreEqual(object value)
         {
             var first = new SemanticObject(value);
             var second = new SemanticObject(value);
@@ -18,8 +63,7 @@ namespace SemanticValues.Tests
                 .Collect(value?.GetType());
         }
 
-        [Property]
-        public Property DifferentTypesAreNeverEqual(object? value, object? otherValue, bool useSameValue)
+        private static Property DifferentTypesAreNeverEqual(object value, object otherValue, bool useSameValue)
         {
             var first = new SemanticObject(value);
             var second = useSameValue ? new DifferentSemanticObject(value) : new DifferentSemanticObject(otherValue);
@@ -30,8 +74,7 @@ namespace SemanticValues.Tests
                 .Collect($"{nameof(useSameValue)}: {useSameValue}");
         }
 
-        [Property]
-        public Property SameTypeWithDifferentValuesAreOnlyEqualWhenValuesAreEqual(object? value, object? otherValue, bool useSameValue)
+        private static Property SameTypeWithDifferentValuesAreOnlyEqualWhenValuesAreEqual(object value, object otherValue, bool useSameValue)
         {
             var first = new SemanticObject(value);
             var second = useSameValue ? new SemanticObject(value) : new SemanticObject(otherValue);
