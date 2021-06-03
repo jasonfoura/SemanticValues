@@ -1,15 +1,15 @@
 ﻿namespace SemanticValues.Tests
 {
-    internal record SemanticObject : SemanticValue<object?>
+    internal record SemanticObject : SemanticValue<object>
     {
-        public SemanticObject(object? value) : base(value)
+        public SemanticObject(object value) : base(value)
         {
         }
     }
     
-    internal record DifferentSemanticObject : SemanticValue<object?>
+    internal record DifferentSemanticObject : SemanticValue<object>
     {
-        public DifferentSemanticObject(object? value) : base(value)
+        public DifferentSemanticObject(object value) : base(value)
         {
         }
     }

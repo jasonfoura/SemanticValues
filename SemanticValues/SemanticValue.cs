@@ -7,7 +7,7 @@ namespace SemanticValues
     /// Represents a "semantic" (or perhaps "domain") value
     /// </summary>
     /// <typeparam name="TValue">The lower-level concrete type of the value (e.g. string, int, Guid, etc.)</typeparam>
-    public abstract record SemanticValue<TValue>
+    public abstract record SemanticValue<TValue> where TValue : notnull
     {
         /// <summary>
         /// By default, no validation is provided. The value is always valid.
