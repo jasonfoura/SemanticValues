@@ -10,7 +10,7 @@ namespace SemanticValues.Tests
         public Property WorksForChar(char value, char otherValue, bool useSameValue) => WorksForType(value, otherValue, useSameValue);
         
         [Property]
-        public Property WorksForString(string value, string otherValue, bool useSameValue) => WorksForType(value, otherValue, useSameValue);
+        public Property WorksForString(NonNull<string> value, NonNull<string> otherValue, bool useSameValue) => WorksForType(value.Item, otherValue.Item, useSameValue);
 
         [Property]
         public Property WorksForGuid(Guid value, Guid otherValue, bool useSameValue) => WorksForType(value, otherValue, useSameValue);
@@ -40,10 +40,10 @@ namespace SemanticValues.Tests
         public Property WorksForByte(byte value, byte otherValue, bool useSameValue) => WorksForType(value, otherValue, useSameValue);
         
         [Property]
-        public Property WorksForObject(object value, object otherValue, bool useSameValue) => WorksForType(value, otherValue, useSameValue);
+        public Property WorksForObject(NonNull<object> value, NonNull<object> otherValue, bool useSameValue) => WorksForType(value.Item, otherValue.Item, useSameValue);
 
         [Property]
-        public Property WorksForDynamic(dynamic value, dynamic otherValue, bool useSameValue) => WorksForType<dynamic>(value, otherValue, useSameValue);
+        public Property WorksForDynamic(NonNull<dynamic> value, NonNull<dynamic> otherValue, bool useSameValue) => WorksForType<dynamic>(value.Item, otherValue.Item, useSameValue);
         
         private static Property WorksForType<TValue>(TValue value, TValue otherValue, bool useSameValue) where TValue : notnull
         {

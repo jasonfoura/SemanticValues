@@ -18,7 +18,7 @@ namespace SemanticValues.Tests
         public Property WorksForChar(char value, bool isValid) => WorksForType(value, isValid);
         
         [Property]
-        public Property WorksForString(string value, bool isValid) => WorksForType(value, isValid);
+        public Property WorksForString(NonNull<string> value, bool isValid) => WorksForType(value.Item, isValid);
 
         [Property]
         public Property WorksForGuid(Guid value, bool isValid) => WorksForType(value, isValid);
@@ -48,10 +48,10 @@ namespace SemanticValues.Tests
         public Property WorksForByte(byte value, bool isValid) => WorksForType(value, isValid);
         
         [Property]
-        public Property WorksForObject(object value, bool isValid) => WorksForType(value, isValid);
+        public Property WorksForObject(NonNull<object> value, bool isValid) => WorksForType(value.Item, isValid);
 
         [Property]
-        public Property WorksForDynamic(dynamic value, bool isValid) => WorksForType<dynamic>(value, isValid);
+        public Property WorksForDynamic(NonNull<dynamic> value, bool isValid) => WorksForType(value.Item, isValid);
         
         private static Property WorksForType<TValue>(TValue value, bool isValid) where TValue : notnull
         {

@@ -2,7 +2,7 @@
 
 namespace SemanticValues.Exceptions
 {
-    public class InvalidSemanticValueException : Exception
+    public abstract class InvalidSemanticValueException : Exception
     {
         protected InvalidSemanticValueException() : base("Provided value is not valid for this type")
         {

@@ -10,7 +10,7 @@ namespace SemanticValues.Tests
         public Property WorksForChar(char value) => WorksForType(value);
         
         [Property]
-        public Property WorksForString(string value) => WorksForType(value);
+        public Property WorksForString(NonNull<string> value) => WorksForType(value.Item);
 
         [Property]
         public Property WorksForGuid(Guid value) => WorksForType(value);
@@ -40,10 +40,10 @@ namespace SemanticValues.Tests
         public Property WorksForByte(byte value) => WorksForType(value);
         
         [Property]
-        public Property WorksForObject(object value) => WorksForType(value);
+        public Property WorksForObject(NonNull<object> value) => WorksForType(value.Item);
 
         [Property]
-        public Property WorksForDynamic(dynamic value) => WorksForType<dynamic>(value);
+        public Property WorksForDynamic(NonNull<dynamic> value) => WorksForType(value.Item);
         
         private static Property WorksForType<TValue>(TValue value) where TValue : notnull
         {
